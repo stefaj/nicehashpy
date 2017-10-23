@@ -1,14 +1,6 @@
-try:
-    from urllib.request import urlopen, Request
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib2 import urlopen, Request
-    from urllib import urlencode
-
 import json
 import time, datetime
 from datetime import date, datetime
-import calendar
 import hmac,hashlib
 from requests import get as _get
 from requests import post as _post
