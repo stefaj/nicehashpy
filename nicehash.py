@@ -29,6 +29,13 @@ class nicehash():
     resp = _get(self.baseuri, params=params)
     # print(resp.url)
     return _loads(resp.text)
+
+  def get_public_orders(self, algo='Scrypt', location=0):
+    params = {'method':'orders.get', 'id':self.apiid, 'key': self.apikey,
+              'location': location, 'algo': self.get_algo_num(algo) }
+    resp = _get(self.baseuri, params=params)
+    return _loads(resp.text)
+
     
   def create_order(self, amount, price, limit, pool_host, pool_port, pool_user,
           pool_pass, location=0,algo='Scrypt'):
@@ -50,7 +57,7 @@ class nicehash():
     return _loads(resp.text)
   
   def remove_all_orders(self, algo='Scrypt', location=0):
-    all_orders = self.get_orders(self, algo, location)['result']['orders']
+    all_orders = self.get_orders(algo, location)['result']['orders']
     for order in all_orders:
         print('Removing '. order['id'])
         self.remove_order(order['id'], algo, location)
