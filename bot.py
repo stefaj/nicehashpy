@@ -18,18 +18,17 @@ def main():
     print("Reading from config file %s" % conf_file)
     config = ConfigParser.ConfigParser()
     config.read(conf_file)
-    print(config)
     
-    apiid = config['API']['ApiId']
-    apikey = config['API']['ApiKey']
-    pool_host = config['POOL']['PoolHost']
-    pool_port = config['POOL']['PoolPort']
-    pool_user = config['POOL']['PoolUser']
-    pool_pass = config['POOL']['PoolPass']
-    algo = config['ORDER']['Algorithm']
-    location = config['ORDER']['Location']
-    amount = config['ORDER']['OrderAmount']
-    limit = config['ORDER']['OrderLimit']
+    apiid = config.get('API','ApiId')
+    apikey = config.get('API','ApiKey')
+    pool_host = config.get('POOL','PoolHost')
+    pool_port = config.get('POOL','PoolPort')
+    pool_user = config.get('POOL','PoolUser')
+    pool_pass = config.get('POOL','PoolPass')
+    algo = config.get('ORDER','Algorithm')
+    location = config.get('ORDER','Location')
+    amount = config.get('ORDER','OrderAmount')
+    limit = config.get('ORDER','OrderLimit')
 
     print(apiid, apikey, pool_host, pool_port, pool_user, pool_pass, algo,
             location, amount, limit)
