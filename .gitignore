@@ -103,3 +103,4 @@ ENV/
 *.swp
 
 test.py
+bot.conf
