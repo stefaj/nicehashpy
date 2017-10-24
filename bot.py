@@ -29,11 +29,14 @@ def main():
     location = config.get('ORDER','Location')
     amount = config.get('ORDER','OrderAmount')
     limit = config.get('ORDER','OrderLimit')
+    try:
+        proxy = config.get('CONNECTION','socksStr',None)
+    except: proxy = None
 
     print(apiid, apikey, pool_host, pool_port, pool_user, pool_pass, algo,
             location, amount, limit)
     
-    api = nicehash(apiid=apiid, apikey=apikey)
+    api = nicehash(apiid=apiid, apikey=apikey, proxy_str=proxy)
     
     def get_5_percentile_price(api, algo='Scrypt', location=0):
         public_orders = api.get_public_orders(algo,location)['result']['orders']

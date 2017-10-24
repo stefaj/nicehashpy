@@ -3,37 +3,49 @@ import time, datetime
 from datetime import date, datetime
 import hmac,hashlib
 from requests import get as _get
-from requests import post as _post
+# from requests import post as _post
 from json import loads as _loads
 from json import dumps as _dumps
 import base64
 
 class nicehash():
-  def __init__(self, apikey, apiid):
+  def __init__(self, apikey, apiid, proxy_str=None):
       self.apikey = apikey
       self.apiid = apiid
       self.baseuri = "https://api.nicehash.com/api"
+      self.proxies = {}
+      if not (proxy_str is None):
+          self.proxies = {
+            'http': proxy_str,
+            'https': proxy_str
+            }
+
+  def get(self, *args, **kargs):
+      kargs['proxies'] = self.proxies
+      # print(kargs)
+      return _get(*args, **kargs)
 
   def get_api_version(self):
     ret = None
-    resp = _get(self.baseuri)
+    resp = self.get(self.baseuri)
     return _loads(resp.text)
      
   def get_balance(self):
     params = {'method':'balance', 'id':self.apiid, 'key': self.apikey}
-    resp = _get(self.baseuri, params=params)
+    resp = self.get(self.baseuri, params=params)
     return _loads(resp.text)
   def get_orders(self, algo='Scrypt', location=0):
     params = {'method':'orders.get', 'id':self.apiid, 'key': self.apikey,
               'my':'','location': location, 'algo': self.get_algo_num(algo) }
-    resp = _get(self.baseuri, params=params)
+    resp = self.get(self.baseuri, params=params)
     # print(resp.url)
+    # print(resp.text)
     return _loads(resp.text)
 
   def get_public_orders(self, algo='Scrypt', location=0):
     params = {'method':'orders.get', 'id':self.apiid, 'key': self.apikey,
               'location': location, 'algo': self.get_algo_num(algo) }
-    resp = _get(self.baseuri, params=params)
+    resp = self.get(self.baseuri, params=params)
     return _loads(resp.text)
 
     
@@ -44,7 +56,7 @@ class nicehash():
               ,'pool_host': pool_host, 'pool_port': pool_port, 'pool_user':
               pool_user, 'pool_pass': pool_pass,
               'limit': limit, 'price': price, 'amount': amount}
-    resp = _get(self.baseuri, params=params)
+    resp = self.get(self.baseuri, params=params)
     print(resp.url)
     return _loads(resp.text)
 
@@ -52,7 +64,7 @@ class nicehash():
     params = {'method':'orders.get', 'id':self.apiid, 'key': self.apikey,
               'location': location, 'algo': self.get_algo_num(algo)
               ,'order': order}
-    resp = _get(self.baseuri, params=params)
+    resp = self.get(self.baseuri, params=params)
     # https://api.nicehash.com/api?method=orders.remove&id=8&key=3583b1df-5e93-4ba0-96d7-7d621fe15a17&location=0&algo=0&order=1880
     return _loads(resp.text)
   
