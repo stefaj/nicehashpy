@@ -4,12 +4,12 @@ import ConfigParser
 
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) < 3:
         print("python bot.py config.conf action")
         # print("config file needs to contain the following lines")
         print("action is can be one of the following")
         print("\t cancel - cancels all active order")
-        print("\t start - inserts a new order at the top 5% of prices")
+        print("\t start [limit] - inserts a new order at the top 5% of prices.limit is optional")
         return
     
     conf_file = sys.argv[1]
@@ -29,6 +29,7 @@ def main():
     location = config.get('ORDER','Location')
     amount = config.get('ORDER','OrderAmount')
     limit = config.get('ORDER','OrderLimit')
+    if len(sys.argv == 4): limit = sys.argv[3]
     try:
         proxy = config.get('CONNECTION','socksStr',None)
     except: proxy = None
