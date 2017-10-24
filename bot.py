@@ -29,7 +29,7 @@ def main():
     location = config.get('ORDER','Location')
     amount = config.get('ORDER','OrderAmount')
     limit = config.get('ORDER','OrderLimit')
-    if len(sys.argv == 4): limit = sys.argv[3]
+    if len(sys.argv) == 4: limit = sys.argv[3]
     try:
         proxy = config.get('CONNECTION','socksStr',None)
     except: proxy = None
