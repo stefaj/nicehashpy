@@ -69,8 +69,8 @@ PoolUser = test
 PoolPass = x
 
 [ORDER]
-OrderAmount = 0.1
-OrderLimit = 12000
+OrderAmount = 0.1 # in BTC
+OrderLimit = 30 # in GH or TH
 Algorithm = Scrypt
 Location = 0
 
